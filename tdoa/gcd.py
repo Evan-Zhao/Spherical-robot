@@ -17,6 +17,6 @@ def fst_delay_snd(fst, snd, samp_rate):
     R = numpy.fft.ifft(Xall)
     max_pos = numpy.argmax(R)
     if max_pos > half_len:
-        return (length - 1 - max_pos) / samp_rate
+        return -(length - 1 - max_pos) / samp_rate
     else:
         return max_pos / samp_rate
