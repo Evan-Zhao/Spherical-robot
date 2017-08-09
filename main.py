@@ -9,6 +9,8 @@ import visual
 
 
 def get_location(q):
+    while q.qsize() > 2:  # don't accumulate too much delay
+        q.get()
     sampling, wave_data, sensor_pos = q.get()
     x, y, z = tdoa.tdoa(wave_data, sampling, sensor_pos)
     print('Calculated. The position is ({0}, {1})'.format(x, y))
@@ -16,8 +18,9 @@ def get_location(q):
 
 
 def push_record(q):
+    rec_len = 0.2  # in second
     while True:
-        q.put(micarray.record())
+        q.put(micarray.record(rec_len))
         print('{0} samples in the queue.'.format(q.qsize()))
 
 

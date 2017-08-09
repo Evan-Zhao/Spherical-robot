@@ -39,7 +39,7 @@ def get_sensor_pos():
     return sensors_pos
 
 
-def record():
+def record(record_len):  # in second
     if p is None or idx is None:
         init()
 
@@ -47,7 +47,6 @@ def record():
     channels = 6
     rate = 48000
     chunk = 1200
-    record_len = 1  # in second
     # Bit depth and max value goes together.
     record_format, numpy_format = pyaudio.paInt32, numpy.int32
 

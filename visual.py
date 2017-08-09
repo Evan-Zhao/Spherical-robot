@@ -37,5 +37,5 @@ def point_animation(point_func, *args):
     global get_point_function, arguments
     get_point_function = point_func
     arguments = args
-    ani = anim.FuncAnimation(fig1, update, init_func=init, blit=True)
+    ani = anim.FuncAnimation(fig1, update, init_func=init, blit=True, repeat_delay=0)
     plt.show()
