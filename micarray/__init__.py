@@ -36,6 +36,7 @@ def get_sensor_pos():
         sensors_pos.append(coord_i)
     return sensors_pos
 
+
 pos = get_sensor_pos()
 
 
@@ -48,9 +49,9 @@ def record():
                     input_device_index=idx,
                     frames_per_buffer=chunk)
     print('Begin recording...')
-    wave_data = numpy.empty((channels,0), dtype=numpy_format)
+    wave_data = numpy.empty((channels, 0), dtype=numpy_format)
     for i in range(0, int(rate / chunk * record_len)):
-        data = stream.read(chunk, exception_on_overflow = False)
+        data = stream.read(chunk, exception_on_overflow=False)
         np_tmp = numpy.frombuffer(data, dtype=numpy_format)
         np_tmp = numpy.reshape(np_tmp, (chunk, channels))
         np_tmp = np_tmp.transpose()

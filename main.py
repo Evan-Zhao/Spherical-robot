@@ -1,29 +1,15 @@
 import matplotlib.pylab as pl
 import numpy
 
-import gcd
-import pinv
-import record
+import micarray
+import tdoa
 import visual
 
 
-def tdoa(channels, wave_data, sampling, sensor_pos):
-    time_delays = [0]
-    for i in range(1, channels):
-        delay = gcd.fst_delay_snd(wave_data[0], wave_data[i], sampling)
-        time_delays.append(delay)
-    return pinv.tdoa_to_position(time_delays, sensor_pos)
-
-
 def run_once():
-    sampling, wave_data, sensor_pos = record.record()
-    channels = wave_data.shape[0]
-
-    x, y, z = tdoa(channels, wave_data, sampling, sensor_pos)
-
+    sampling, wave_data, sensor_pos = micarray.record()
+    x, y, z = tdoa.tdoa(wave_data, sampling, sensor_pos)
     print('Calculated.')
-    print("Sound located at ({0}, {1}, {2})".format(x, y, z))
-
     return x, y
 
 

@@ -1,6 +1,7 @@
-import numpy.linalg as lin
-import numpy as np
 import math
+
+import numpy as np
+import numpy.linalg as lin
 
 # Const area
 sound_speed = 340.29
