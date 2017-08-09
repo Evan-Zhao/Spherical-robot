@@ -1,13 +1,11 @@
 import numpy
 
 
-def fst_delay_snd(fst, snd, samp_rate, max_delay):
+def fst_delay_snd(fst, snd, samp_rate):
     # Verify argument shape.
     s1, s2 = fst.shape, snd.shape
     if len(s1) != 1 or len(s2) != 1 or s1[0] != s2[0]:
         raise Exception("Argument shape invalid, in 'fst_delay_snd' function")
-
-    # corr, pos = gcd.fst_delay_snd(fst, snd, samp_rate, max_delay)
 
     length = s1[0]
     half_len = int(length / 2)

@@ -1,8 +1,9 @@
 # import wave
 # import os
-import pyaudio
-import numpy
 import math
+
+import numpy
+import pyaudio
 
 # Constant area.
 channels = 6
