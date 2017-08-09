@@ -1,5 +1,7 @@
 import matplotlib.animation as anim
+import matplotlib.pylab as pl
 import matplotlib.pyplot as plt
+import numpy
 
 plt_bound = 1
 disp_bound = 1.05
@@ -39,3 +41,15 @@ def point_animation(point_func, *args):
     arguments = args
     ani = anim.FuncAnimation(fig1, update, init_func=init, blit=True, repeat_delay=0)
     plt.show()
+
+
+def plot_channel(audio, sampling):
+    channels, nframes = audio.shape[0], audio.shape[1]
+    time_range = numpy.arange(0, nframes) * (1.0 / sampling)
+
+    for i in range(1, channels + 1):
+        pl.figure(i)
+        pl.plot(time_range, audio[i - 1])
+        pl.xlabel("time{0}".format(i))
+
+    pl.show()

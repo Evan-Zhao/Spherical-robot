@@ -21,15 +21,8 @@ def push_record(q):
         print('{0} samples in the queue.'.format(q.qsize()))
 
 
-def pop_record(q):
-    while True:
-        result = get_location(q)
-
-
 if __name__ == '__main__':
     q = Queue()
     p1 = Process(target=push_record, args=(q,))
     p1.start()
     visual.point_animation(get_location, q)
-    p2 = Process(target=pop_record, args=(q,))
-    p2.start()
