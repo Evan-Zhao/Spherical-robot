@@ -17,7 +17,9 @@ def init():
     global idx, p, pos
     p = pyaudio.PyAudio()
     for i in range(p.get_device_count()):
-        if p.get_device_info_by_index(i).get('name') == devicename:
+        dev = p.get_device_info_by_index(i)
+        # print((i, dev['name'], dev['maxInputChannels']))
+        if dev.get('name') == devicename:
             idx = i
             break
     if idx is None:
