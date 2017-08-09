@@ -6,15 +6,19 @@ import numpy
 plt_bound = 1
 disp_bound = 1.05
 
-fig1 = plt.figure()
-ln_o, = plt.plot([], [], 'ro')
-ln_x, = plt.plot([], [], 'bx')
+fig1 = None
+ln_o = None
+ln_x = None
 
 get_point_function = None
 arguments = None
 
 
 def init():
+    global fig1, ln_o, ln_x
+    fig1 = plt.figure()
+    ln_o = plt.plot([], [], 'ro')
+    ln_x = plt.plot([], [], 'bx')
     plt.xlim(-disp_bound, disp_bound)
     plt.ylim(-disp_bound, disp_bound)
     plt.xlabel('x')
@@ -53,3 +57,23 @@ def plot_channel(audio, sampling):
         pl.xlabel("time{0}".format(i))
 
     pl.show()
+
+
+def make_fft_graph(fft, corre):
+    fft_np = numpy.array(fft).swapaxes(0, 1).swapaxes(1, 2)
+    channel_N, freq_N, sample_N = fft_np.shape
+    if (channel_N > 6):  # We don't have space for more than 6 channels
+        return
+    fig, axes = plt.subplots(2, 3)
+    fig.subplots_adjust(hspace=0.3, wspace=0.05)
+    for ax, mat, i in zip(axes.flat, fft_np, range(1, channel_N + 1)):
+        fft_abs = numpy.abs(mat)
+        fft_less_row = fft_abs[0::20]
+        n = freq_N / 20
+        fft_sqr = numpy.repeat(fft_less_row, int(n / sample_N)).reshape([n, n])
+        ax.matshow(fft_sqr, cmap='viridis')
+        plt.xlabel('time')
+        plt.ylabel('freq')
+        ax.set_title('Channel {0}'.format(i))
+    plt.show()
+    print("Plotted.")
