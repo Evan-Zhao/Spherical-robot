@@ -8,5 +8,4 @@ def tdoa(wave_data, sampling, sensor_pos):
     for i in range(1, channels):
         delay = gcd.fst_delay_snd(wave_data[0], wave_data[i], sampling)
         time_delays.append(delay)
-    print(str(time_delays))
     return pinv.tdoa_to_position(time_delays, sensor_pos)

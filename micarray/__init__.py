@@ -3,24 +3,26 @@ import math
 import numpy
 import pyaudio
 
-# Constant area.
-channels = 6
-rate = 48000
-chunk = 1200
-record_len = 1  # in second
+# Record thread constants
+p = None
+idx = None
+pos = None
+
+# Global constants
 devicename = 'USBStreamer: Audio (hw:2,0)'
-# Bit depth and max value goes together.
-record_format, numpy_format = pyaudio.paInt32, numpy.int32
+
 
 # Initialization.
-p = pyaudio.PyAudio()
-idx = None
-for i in range(p.get_device_count()):
-    if p.get_device_info_by_index(i).get('name') == devicename:
-        idx = i
-        break
-if idx is None:
-    raise Exception('No micarray found.')
+def init():
+    global idx, p, pos
+    p = pyaudio.PyAudio()
+    for i in range(p.get_device_count()):
+        if p.get_device_info_by_index(i).get('name') == devicename:
+            idx = i
+            break
+    if idx is None:
+        raise Exception('No micarray found.')
+    pos = get_sensor_pos()
 
 
 def get_sensor_pos():
@@ -37,15 +39,22 @@ def get_sensor_pos():
     return sensors_pos
 
 
-pos = get_sensor_pos()
-
-
 def record():
+    if p is None or idx is None:
+        init()
+
+    # Constant area. These are put inside because this function will not be in main thread.
+    channels = 6
+    rate = 48000
+    chunk = 1200
+    record_len = 1  # in second
+    # Bit depth and max value goes together.
+    record_format, numpy_format = pyaudio.paInt32, numpy.int32
+
     stream = p.open(format=record_format,
                     channels=channels,
                     rate=rate,
                     input=True,
-                    output=True,
                     input_device_index=idx,
                     frames_per_buffer=chunk)
     print('Begin recording...')
@@ -58,5 +67,4 @@ def record():
         wave_data = numpy.append(wave_data, np_tmp, axis=1)
     stream.stop_stream()
     stream.close()
-    print('Finished recording.')
     return rate, wave_data, pos

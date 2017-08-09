@@ -1,3 +1,5 @@
+from multiprocessing import Process, Queue
+
 import matplotlib.pylab as pl
 import numpy
 
@@ -6,19 +8,25 @@ import tdoa
 import visual
 
 
-def run_once():
-    sampling, wave_data, sensor_pos = micarray.record()
+def get_location(q):
+    sampling, wave_data, sensor_pos = q.get()
     x, y, z = tdoa.tdoa(wave_data, sampling, sensor_pos)
-    print('Calculated.')
+    print('Calculated. The position is ({0}, {1})'.format(x, y))
     return x, y
 
 
-def main():
-    visual.point_animation(run_once)
+def push_record(q):
+    while True:
+        q.put(micarray.record())
+        print('{0} samples in the queue.'.format(q.qsize()))
 
 
 if __name__ == '__main__':
-    main()
+    q = Queue()
+    p = Process(target=push_record, args=(q,))
+    p.start()
+    visual.point_animation(get_location, q)
+    p.join()
 
 
 def plot_channel(audio, sampling):
