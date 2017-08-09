@@ -1,5 +1,3 @@
-# import wave
-# import os
 import math
 
 import numpy
@@ -10,10 +8,9 @@ channels = 6
 rate = 48000
 chunk = 1200
 record_len = 1  # in second
-filename = 'temp.wav'
 devicename = 'USBStreamer: Audio (hw:2,0)'
 # Bit depth and max value goes together.
-record_format, record_maxvalue, numpy_format = pyaudio.paInt32, 2**(32-1), numpy.int32 #pyaudio.paFloat32, "S32_LE"
+record_format, numpy_format = pyaudio.paInt32, numpy.int32
 
 # Initialization.
 p = pyaudio.PyAudio()
@@ -22,7 +19,7 @@ for i in range(p.get_device_count()):
     if p.get_device_info_by_index(i).get('name') == devicename:
         idx = i
         break
-if idx == None:
+if idx is None:
     raise Exception('No micarray found.')
 
 
@@ -61,4 +58,4 @@ def record():
     stream.stop_stream()
     stream.close()
     print('Finished recording.')
-    return rate, record_maxvalue, wave_data, pos
+    return rate, wave_data, pos

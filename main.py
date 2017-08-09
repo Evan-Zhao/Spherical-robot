@@ -16,7 +16,7 @@ def tdoa(channels, wave_data, sampling, sensor_pos):
 
 
 def run_once():
-    sampling, maxvalue, wave_data, sensor_pos = record.record()
+    sampling, wave_data, sensor_pos = record.record()
     channels = wave_data.shape[0]
 
     x, y, z = tdoa(channels, wave_data, sampling, sensor_pos)
