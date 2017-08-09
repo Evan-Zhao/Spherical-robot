@@ -8,7 +8,7 @@ import pyaudio
 # Constant area.
 channels = 6
 rate = 48000
-chunk = 1024
+chunk = 1200
 record_len = 1  # in second
 filename = 'temp.wav'
 devicename = 'USBStreamer: Audio (hw:2,0)'
