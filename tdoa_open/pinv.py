@@ -29,7 +29,7 @@ def normalize(v):
     y1 = v[1, 0]
     z1 = v[2, 0]
     if x1 == 0 and y1 == 0 and z1 == 0:
-        return v
+        return 0, 0, 0
     else:
         norm = math.sqrt(x1 * x1 + y1 * y1 + z1 * z1)
         return x1 / norm, y1 / norm, z1 / norm
