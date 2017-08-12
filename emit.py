@@ -20,10 +20,10 @@ def get_location(sampling, wave_data, sensor_pos):
 def push_record(sample_q):
     rec_len = 0.1  # in second
     while True:
-        while sample_q.qsize() > 2:  # don't accumulate too much delay
-            sample_q.get()
+        # while sample_q.qsize() > 2:  # don't accumulate too much delay
+        #    sample_q.get()
         sample_q.put(micarray.record(rec_len))
-        print('{0} samples in the queue.'.format(sample_q.qsize()))
+        # print('{0} samples in the queue.'.format(sample_q.qsize()))
 
 
 def pop_record(sample_q, socket, ip_str, port):
@@ -46,7 +46,7 @@ def signal_terminate(socket):
 
 
 if __name__ == '__main__':
-    ip = "127.0.0.1"
+    ip = "192.168.43.251"
     port = 10002
     sock = bidir.establish(ip, port)
     sample_q = Queue()

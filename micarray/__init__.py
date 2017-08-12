@@ -9,7 +9,7 @@ idx = None
 pos = None
 
 # Global constants
-devicename = 'USBStreamer: Audio (hw:2,0)'
+devicename = 'USBStreamer: USB Audio (hw:2,0)'
 
 
 # Initialization.
