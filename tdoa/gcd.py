@@ -1,5 +1,7 @@
 import numpy
 
+numpy.seterr(all='raise')
+
 
 def fst_delay_snd(fst, snd, samp_rate):
     # Verify argument shape.
@@ -13,7 +15,10 @@ def fst_delay_snd(fst, snd, samp_rate):
     Xsnd_star = numpy.conj(numpy.fft.fft(snd))
     Xall = numpy.zeros(length, dtype=numpy.complex64)
     for i in range(0, length):
-        Xall[i] = (Xsnd_star[i] * Xfst[i]) / abs(Xsnd_star[i]) / abs(Xfst[i])
+        if Xsnd_star[i] == 0 or Xfst[i] == 0:
+            Xall[i] = 0
+        else:
+            Xall[i] = (Xsnd_star[i] * Xfst[i]) / abs(Xsnd_star[i]) / abs(Xfst[i])
     R = numpy.fft.ifft(Xall)
     max_pos = numpy.argmax(R)
     if max_pos > half_len:

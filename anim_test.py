@@ -26,3 +26,4 @@ if __name__ == '__main__':
     p1 = Process(target=push_record, args=(q,))
     p1.start()
     visual.point_animation(get_location, q)
+    p1.join()

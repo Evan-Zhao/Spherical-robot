@@ -6,7 +6,6 @@ import numpy
 plt_bound = 1
 disp_bound = 1.05
 
-fig1 = None
 ln_o = None
 ln_x = None
 
@@ -16,9 +15,9 @@ arguments = None
 
 def init():
     global fig1, ln_o, ln_x
-    fig1 = plt.figure()
-    ln_o = plt.plot([], [], 'ro')
-    ln_x = plt.plot([], [], 'bx')
+
+    ln_o, = plt.plot([], [], 'ro')
+    ln_x, = plt.plot([], [], 'bx')
     plt.xlim(-disp_bound, disp_bound)
     plt.ylim(-disp_bound, disp_bound)
     plt.xlabel('x')
@@ -27,8 +26,8 @@ def init():
 
 
 def update(*args):
+    global get_point_function, arguments, ln_o, ln_x
     x, y = get_point_function(*arguments)
-    global ln_o, ln_x
     if -plt_bound <= x <= plt_bound and -plt_bound <= y <= plt_bound:
         ln_o.set_data([x], [y])
         ln_x.set_data([], [])
@@ -41,6 +40,7 @@ def update(*args):
 
 def point_animation(point_func, *args):
     global get_point_function, arguments
+    fig1 = plt.figure()
     get_point_function = point_func
     arguments = args
     ani = anim.FuncAnimation(fig1, update, init_func=init, blit=True, repeat_delay=0)
